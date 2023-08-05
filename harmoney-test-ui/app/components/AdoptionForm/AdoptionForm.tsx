@@ -46,9 +46,10 @@ const AdoptionForm = ({
 
   return (
     <Formik
-      initialValues={initialValues}
       enableReinitialize
+      initialValues={initialValues}
       onSubmit={() => noop()}
+      validateOnMount={true}
       validationSchema={AdoptionFormValidation}
     >
       {(formik) => (
