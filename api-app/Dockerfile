@@ -2,7 +2,7 @@
 FROM node:18-alpine AS nest-builder
 
 # Set the working directory for the Nest.js app
-WORKDIR /app/test-api
+WORKDIR /built-api-app
 
 # Copy the package.json and yarn.lock files for Nest.js
 COPY package.json yarn.lock ./
@@ -20,13 +20,13 @@ RUN yarn build
 FROM node:18-alpine
 
 # Set the working directory for the combined app
-WORKDIR /app
+WORKDIR /api-app
 
 # Copy the built output from the build stage
-COPY --from=nest-builder /app/test-api/node_modules/ ./test-api/node_modules/
-COPY --from=nest-builder /app/test-api/dist/ ./test-api/dist/
+COPY --from=nest-builder /built-api-app/node_modules/ ./node_modules/
+COPY --from=nest-builder /built-api-app/dist/ ./dist/
 
 # Expose the port
 EXPOSE 3000
 
-CMD ["node", "./test-api/dist/main.js"]
+CMD ["node", "./dist/main.js"]

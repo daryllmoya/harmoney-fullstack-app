@@ -2,7 +2,7 @@
 FROM node:18-alpine AS next-builder
 
 # Set the working directory for the Next.js app
-WORKDIR /app/test-ui
+WORKDIR /built-ui-app
 
 # Copy the package.json and yarn.lock files for Next.js
 COPY package.json yarn.lock ./
@@ -20,16 +20,16 @@ RUN yarn build
 FROM node:18-alpine
 
 # Set the working directory for the combined app
-WORKDIR /app
+WORKDIR /ui-app
 
 # Copy the built output from the build stage
-COPY --from=next-builder /app/test-ui/.next/standalone/ ./test-ui/standalone/
-COPY --from=next-builder /app/test-ui/.next/static/ ./test-ui/standalone/.next/static/
-COPY --from=next-builder /app/test-ui/public/ ./test-ui/standalone/public/
+COPY --from=next-builder /built-ui-app/.next/standalone/ ./standalone/
+COPY --from=next-builder /built-ui-app/.next/static/ ./standalone/.next/static/
+COPY --from=next-builder /built-ui-app/public/ ./standalone/public/
 
 ENV PORT=3001
 
 # Expose the port
 EXPOSE 3001
 
-CMD ["node", "./test-ui/standalone/server.js"]
+CMD ["node", "./standalone/server.js"]
