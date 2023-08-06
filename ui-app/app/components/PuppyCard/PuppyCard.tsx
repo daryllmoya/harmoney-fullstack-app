@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardHeader,
   CardMedia,
@@ -37,20 +38,20 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
       className="grow-1 flex flex-col rounded-lg px-4 md:p-0"
       key={`${lowerCase(puppy.name)}-${lowerCase(puppy.breed)}`}
     >
-      <CardActionArea
-        className="h-full"
-        disableTouchRipple={disableClick}
-        href={disableClick ? '' : `/puppy/${puppy.id}`}
-      >
-        <Card className="drop-shadow-lg rounded-xl h-full">
+      <Card className="drop-shadow-lg rounded-xl h-full">
+        <CardActionArea
+          className="h-full"
+          disableTouchRipple={disableClick}
+          href={disableClick ? '' : `/puppy/${puppy.id}`}
+        >
           <CardHeader component="h2" title={puppy.name} />
           <CardMedia
             alt={puppy.name + ' - ' + puppy.breed}
             className="object-cover"
-            component="img"
+            component='img'
             height="200"
             image={puppy.image}
-          />
+          ></CardMedia>
           <CardContent>
             <Typography className="font-bold">
               Breed: <span className="font-medium">{puppy.breed}</span>
@@ -72,6 +73,8 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
               </span>
             </Typography>
           </CardContent>
+        </CardActionArea>
+        <CardActions>
           <div className="h-32 w-32">
             <div className="absolute inset-x-0 bottom-0 h-16">
               <div className="flex items-center justify-center">
@@ -81,8 +84,8 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
               </div>
             </div>
           </div>
-        </Card>
-      </CardActionArea>
+        </CardActions>
+      </Card>
       <AdoptionForm
         handleClose={handleClose}
         puppy={puppy}
