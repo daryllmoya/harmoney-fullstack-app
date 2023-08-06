@@ -1,5 +1,6 @@
 'use client';
 
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import { Puppy } from '@/app/lib/interface/puppy.interface';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -13,8 +14,8 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { lowerCase } from 'lodash';
-import { useState } from 'react';
+import { isEmpty, lowerCase } from 'lodash';
+import { useEffect, useRef, useState } from 'react';
 import AdoptionForm from '../AdoptionForm/AdoptionForm';
 
 interface PuppyCardProps {
@@ -24,6 +25,8 @@ interface PuppyCardProps {
 
 const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
   const [showAdoptionForm, setShowAdoptionForm] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
+  const initialized = useRef(false);
 
   const handleClickOpen = () => {
     setShowAdoptionForm(true);
@@ -32,6 +35,15 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
   const handleClose = () => {
     setShowAdoptionForm(false);
   };
+
+  useEffect(() => {
+    if (!initialized.current && !isEmpty(puppy)) {
+      initialized.current = true;
+      fetch(puppy.image)
+        .then((response) => setImageUrl(response.url))
+        .catch((error) => console.error('Error fetching image:', error));
+    }
+  }, []);
 
   return (
     <li
@@ -48,9 +60,9 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
           <CardMedia
             alt={puppy.name + ' - ' + puppy.breed}
             className="object-cover"
-            component='img'
+            component="img"
             height="200"
-            image={puppy.image}
+            image={imageUrl}
           ></CardMedia>
           <CardContent>
             <Typography className="font-bold">
