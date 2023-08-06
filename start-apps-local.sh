@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Change directory to the UI app
-cd harmoney-test-ui
+cd ui-app
 yarn dev &
 
 # Change directory to the API app
 cd ..
-cd harmoney-test-api
+cd api-app
 yarn start:dev &

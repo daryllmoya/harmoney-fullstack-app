@@ -27,11 +27,11 @@ cd puppy-adoption
 
 ```bash
 # Install frontend dependencies
-cd harmoney-test-ui
+cd ui-app
 yarn install
 
 # Install backend API dependencies
-cd ../harmoney-test-api
+cd ../api-app
 yarn install
 ```
 
