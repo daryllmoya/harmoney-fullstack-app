@@ -41,19 +41,22 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy the built output from the Nest.js and Next.js stages
+COPY --from=nest-builder /app/test-api/node_modules ./test-api/node_modules
 COPY --from=nest-builder /app/test-api/dist ./test-api/dist
-COPY --from=next-builder /app/test-ui/.next ./test-ui/.next
+COPY --from=next-builder /app/test-ui/.next/standalone ./test-ui/standalone
+COPY --from=next-builder /app/test-ui/.next/static ./test-ui/standalone/.next/static
+COPY --from=next-builder /app/test-ui/public ./test-ui/standalone/public
+
+ENV PORT=3001
 
 # Expose the ports for both apps (3001 for Next.js, 3000 for Nest.js)
-EXPOSE 3001
 EXPOSE 3000
+EXPOSE 3001
 
 # Copy the start/stop scripts to the container
-COPY start-apps.sh stop-apps.sh ./
+COPY entrypoint.sh ./
 
 # Make the shell scripts executable
-RUN chmod +x start-apps.sh
-RUN chmod +x stop-apps.sh
+RUN chmod +x entrypoint.sh
 
-# Start both apps using the shell script
-CMD ["./start-apps.sh"]
+CMD ["./entrypoint.sh"]
