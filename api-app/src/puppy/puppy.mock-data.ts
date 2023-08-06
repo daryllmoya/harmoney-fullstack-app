@@ -11,7 +11,7 @@ const generateMockPuppies = (count: number) => {
       age: faker.number.int({ min: 1, max: 3 }),
       breed: faker.animal.dog(),
       description: faker.lorem.sentence(),
-      image: `https://picsum.photos/1200?random=${i}`,
+      image: 'https://loremflickr.com/1200/1200/dog',
       gender: faker.person.sexType(),
       personalityTraits: [
         faker.lorem.word(),

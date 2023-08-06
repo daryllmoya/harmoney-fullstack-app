@@ -39,7 +39,7 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
   useEffect(() => {
     if (!initialized.current && !isEmpty(puppy)) {
       initialized.current = true;
-      fetch(puppy.image)
+      fetch('https://loremflickr.com/1200/1200/dog')
         .then((response) => setImageUrl(response.url))
         .catch((error) => console.error('Error fetching image:', error));
     }
