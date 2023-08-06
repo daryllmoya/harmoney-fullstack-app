@@ -41,11 +41,11 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy the built output from the Nest.js and Next.js stages
-COPY --from=nest-builder /app/test-api/node_modules ./test-api/node_modules
-COPY --from=nest-builder /app/test-api/dist ./test-api/dist
-COPY --from=next-builder /app/test-ui/.next/standalone ./test-ui/standalone
-COPY --from=next-builder /app/test-ui/.next/static ./test-ui/standalone/.next/static
-COPY --from=next-builder /app/test-ui/public ./test-ui/standalone/public
+COPY --from=nest-builder /app/test-api/node_modules/ ./test-api/node_modules/
+COPY --from=nest-builder /app/test-api/dist/ ./test-api/dist/
+COPY --from=next-builder /app/test-ui/.next/standalone/ ./test-ui/standalone/
+COPY --from=next-builder /app/test-ui/.next/static/ ./test-ui/standalone/.next/static/
+COPY --from=next-builder /app/test-ui/public/ ./test-ui/standalone/public/
 
 ENV PORT=3001
 

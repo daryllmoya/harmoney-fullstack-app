@@ -6,4 +6,4 @@ node server.js &
 
 # Start Nest.js app
 cd ../../test-api/dist
-node main.js &
+node main.js
