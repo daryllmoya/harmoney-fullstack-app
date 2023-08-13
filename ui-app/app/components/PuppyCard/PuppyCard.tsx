@@ -14,8 +14,8 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-import { isEmpty, lowerCase } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { lowerCase } from 'lodash';
+import { useState } from 'react';
 import AdoptionForm from '../AdoptionForm/AdoptionForm';
 
 interface PuppyCardProps {
@@ -25,8 +25,6 @@ interface PuppyCardProps {
 
 const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
   const [showAdoptionForm, setShowAdoptionForm] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
-  const initialized = useRef(false);
 
   const handleClickOpen = () => {
     setShowAdoptionForm(true);
@@ -36,15 +34,6 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
     setShowAdoptionForm(false);
   };
 
-  useEffect(() => {
-    if (!initialized.current && !isEmpty(puppy)) {
-      initialized.current = true;
-      fetch('https://loremflickr.com/1200/1200/dog')
-        .then((response) => setImageUrl(response.url))
-        .catch((error) => console.error('Error fetching image:', error));
-    }
-  }, []);
-
   return (
     <li
       className="grow-1 flex flex-col rounded-lg px-4 md:p-0"
@@ -52,7 +41,7 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
     >
       <Card className="drop-shadow-lg rounded-xl h-full">
         <CardActionArea
-          className="h-full"
+          className="h-full -mt-5"
           disableTouchRipple={disableClick}
           href={disableClick ? '' : `/puppy/${puppy.id}`}
         >
@@ -62,7 +51,7 @@ const PuppyCard = ({ puppy, disableClick }: PuppyCardProps) => {
             className="object-cover"
             component="img"
             height="200"
-            image={imageUrl}
+            image={puppy.image}
           ></CardMedia>
           <CardContent>
             <Typography className="font-bold">

@@ -8,7 +8,7 @@ import {
   TextField,
 } from '@mui/material';
 import { isEmpty } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from './api/axios';
 import PuppyCard from './components/PuppyCard/PuppyCard';
 import { Puppy } from './lib/interface/puppy.interface';
@@ -16,20 +16,22 @@ import { Puppy } from './lib/interface/puppy.interface';
 const HomePage = () => {
   const [puppies, setPuppies] = useState<Puppy[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const initialized = useRef(false);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get('/api/v1/puppy/all', {
-          params: {
-            search: searchQuery,
-          },
-        });
-        setPuppies(response.data);
-      } catch (error) {
-        console.error('Error fetching puppies:', error);
-      }
-    })();
+    if (!initialized.current) {
+      initialized.current = true;
+      (async () => {
+        try {
+          const response = await axios.get('/api/v1/puppy/all', {
+            params: { search: searchQuery },
+          });
+          setPuppies(response.data);
+        } catch (error) {
+          console.error('Error fetching puppies:', error);
+        }
+      })();
+    }
   }, [searchQuery]);
 
   return (
@@ -53,7 +55,7 @@ const HomePage = () => {
         )}
         {!isEmpty(puppies) && (
           <Grid>
-            <ul className="grid-cols-auto grid gap-6 md:auto-rows-fr md:grid-cols-3 lg:grid-cols-4">
+            <ul className="grid-cols-auto grid gap-6 md:auto-rows-fr md:grid-cols-3 lg:grid-cols-4 p-0 m-0">
               {puppies.map((puppy) => (
                 <PuppyCard key={puppy.id} puppy={puppy} />
               ))}

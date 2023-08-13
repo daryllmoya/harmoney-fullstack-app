@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Puppy } from './puppy.interface';
-import generateMockPuppies from './puppy.mock-data';
 
 @Injectable()
 export class PuppyService {
-  private puppies: Puppy[] = generateMockPuppies(30);
+  public puppies: Puppy[] = [];
 
   getAllPuppies(search: string): Puppy[] {
     let filteredPuppies = this.puppies;
