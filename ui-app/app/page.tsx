@@ -16,22 +16,18 @@ import { Puppy } from './lib/interface/puppy.interface';
 const HomePage = () => {
   const [puppies, setPuppies] = useState<Puppy[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const initialized = useRef(false);
 
   useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      (async () => {
-        try {
-          const response = await axios.get('/api/v1/puppy/all', {
-            params: { search: searchQuery },
-          });
-          setPuppies(response.data);
-        } catch (error) {
-          console.error('Error fetching puppies:', error);
-        }
-      })();
-    }
+    (async () => {
+      try {
+        const response = await axios.get('/api/v1/puppy/all', {
+          params: { search: searchQuery },
+        });
+        setPuppies(response.data);
+      } catch (error) {
+        console.error('Error fetching puppies:', error);
+      }
+    })();
   }, [searchQuery]);
 
   return (
